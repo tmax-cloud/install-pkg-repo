@@ -48,7 +48,7 @@
     * CentOS Repository 비활성화
       * sudo vi /etc/yum.repos.d/CentOS-Base.repo
       * [base], [updates], [extra] repo config 에 enabled=0 추가
-      * ![repo-config1](/figure/centos-configure.png)
+      * ![repo-config1](/figure/centos-config.png)
     * Yum Repository 구축
       * sudo yum install -y /tmp/localrepo/createrepo/*.rpm
       * sudo createrepo /tmp/localrepo

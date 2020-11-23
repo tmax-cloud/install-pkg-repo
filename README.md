@@ -1,4 +1,4 @@
-#Package repo 구축 가이드
+# OS 및 Package Repo 구축 가이드
 
 ## 구성 요소 및 버전
 * HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/archive_20.08.03)
@@ -16,7 +16,7 @@
 ## 설치 가이드
 0. [Install OS](#step-0-install-os)
 1. [Create Local Repository](#step-1-local-repository-%EA%B5%AC%EC%B6%95)
-2. [Add Additional Package]()
+2. [Add Additional Package](#step-2-local-repository%EC%97%90-packages-%EC%B6%94%EA%B0%80-%EA%B0%80%EC%9D%B4%EB%93%9C-optional)
 
 ## Step 0. Install OS
 * 목적 : `CentOS 7.7 설치`

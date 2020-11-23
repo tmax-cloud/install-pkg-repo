@@ -5,7 +5,7 @@
 * HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/archive_20.08.03)
 * ISO 파일(CentOS 7.7 :http://vault.centos.org/7.7.1908/isos/x86_64/ 또는 http://192.168.2.136/ISOs/CentOS-7-x86_64-DVD-1908.iso)
 
-## 폐쇄망 설치 가이드
+## 폐쇄망 구축 가이드
 1. Install OS
     * CentOS 7.7 설치
 	    * 해당 환경에 맞게 OS를 설치합니다. (IP, hostname, software selection 등)		* 
@@ -14,9 +14,10 @@
     * HyperCloud 용 yum repository 구축
 	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축		*  
 
-## Install Steps
+## 설치 가이드
 0. [Install OS](#step-0-install-os)
 1. [Create Local Repository](#step-1-local-repository-%EA%B5%AC%EC%B6%95)
+2. [Add Additional Package]()
 
 ## Step 0. Install OS
 * 목적 : `CentOS 7.7 설치`
@@ -63,21 +64,14 @@
       * sudo yum clean all && yum repolist
       * 다음과 같이 나오면 완료.
       * ![repo-config3](/figure/fin.png)
+* 주의 사항
+	* ceph 설치에 device를 사용할 경우의 주의 사항입니다.
+	* lvm으로 묶이거나 다른 용도로 사용 중인 device는 지원되지 않으며
+	* ceph osd가 deploy되는 노드에 사용할 device가 반드시 존재 및 umount 상태여야 합니다.
+	* 따라서 클러스터 구성 전 device의 상태를 확인하고, 자세한 내용은 rook-ceph 설치 단계를 참고하시기 바랍니다.
 
+## Step 2. local repository에 packages 추가 가이드 (Optional)
 
-# HyperCloud 설치 시 주의할 점
-
-## Ceph 설치 시 주의 사항
-* ceph 설치에 device를 사용할 경우의 주의 사항입니다.
-* lvm으로 묶이거나 다른 용도로 사용 중인 device는 지원되지 않으며
-* ceph osd가 deploy되는 노드에 사용할 device가 반드시 존재 및 umount 상태여야 합니다.
-* 따라서 클러스터 구성 전 device의 상태를 확인하고, 
-* 자세한 내용은 rook-ceph 설치 단계를 참고하시기 바랍니다.
-
-
-# local repository에 packages 추가 가이드
-
-## 폐쇄망 설치 가이드
 1. 원하는 packages를 local repo 경로에 추가
     * 추가하고자 하는 packages를 local repo 경로에 추가
 	    * mv {packages} {local repo 경로}		 
@@ -103,3 +97,5 @@
 
 
 
+
+## 삭제 가이드

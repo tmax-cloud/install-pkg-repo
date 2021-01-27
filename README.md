@@ -1,7 +1,7 @@
 # OS 및 Package Repo 구축 가이드
 
 ## 구성 요소 및 버전
-* HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/archive_20.08.03)
+* HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat)
 * ISO 파일(CentOS 7.7 :http://vault.centos.org/7.7.1908/isos/x86_64/ 또는 http://192.168.2.136/ISOs/CentOS-7-x86_64-DVD-1908.iso)
 
 ## 폐쇄망 구축 가이드
@@ -43,8 +43,10 @@
 * 목적 : `폐쇄망일 때 yum repository 구축`
 * 생성 순서 : 
     * 패키지 가져오기
-      * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/archive_20.08.03 .
-      * cp -rT ./archive_20.08.03 /tmp/localrepo
+      * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/common .
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.17/*.rpm  (k8s version 확인 필요, k8s1.15, k8s1.16, k8s1.17, k8s1.18, k8s1.19)     
+      * cp -rT ./common /tmp/localrepo
+      * mv ./*.rpm /tmp/localrepo
     * CentOS Repository 비활성화
       * sudo vi /etc/yum.repos.d/CentOS-Base.repo
       * [base], [updates], [extra] repo config 에 enabled=0 추가
@@ -77,15 +79,15 @@
 
     * 예시 ( kubernetes-v1.16 )    
     	    
-	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.16.15)  		
-	    * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.16.15 . 		
-	    * mv 1.16.15/*.rpm /tmp/localrepo
+	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.16)  		
+	    * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.16/*.rpm . 		
+	    * mv ./*.rpm /tmp/localrepo
     
     * 예시 ( kubernetes-v1.17 )    
     	    
-	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.17.6)   		
-	    * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.17.6 . 		
-	    * mv 1.17.6/*.rpm /tmp/localrepo 
+	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.17)   		
+	    * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.16/*.rpm . 		
+	    * mv ./*.rpm /tmp/localrepo 
 	    
 2. local Repository 구축
     * yum repository 구축

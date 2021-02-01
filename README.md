@@ -7,11 +7,11 @@
 ## 폐쇄망 구축 가이드
 1. Install OS
     * CentOS 7.7 설치
-	    * 해당 환경에 맞게 OS를 설치합니다. (IP, hostname, software selection 등)		* 
+	    * 해당 환경에 맞게 OS를 설치합니다. (IP, hostname, software selection 등)		 
 
 2. Repository 구축
     * HyperCloud 용 yum repository 구축
-	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축		*  
+	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축 	  
 
 ## 설치 가이드
 0. [Install OS](#step-0-install-os)

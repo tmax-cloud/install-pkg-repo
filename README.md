@@ -12,7 +12,13 @@
 2. Repository 구축
     * HyperCloud 용 yum repository 구축
 	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축 	  
-
+3. 주의사항
+    * BIOS 세팅
+        * HyperThreading 기능을 켜서 사용하기
+    * ceph 설치에 device를 사용할 경우의 주의 사항입니다.
+        * lvm으로 묶이거나 다른 용도로 사용 중인 device는 지원되지 않으며
+        * ceph osd가 deploy되는 노드에 사용할 device가 반드시 존재 및 umount 상태여야 합니다.
+        * 따라서 클러스터 구성 전 device의 상태를 확인하고, 자세한 내용은 rook-ceph 설치 단계를 참고하시기 바랍니다.
 ## 설치 가이드
 0. [Install OS](#step-0-install-os)
 1. [Create Local Repository](#step-1-local-repository-%EA%B5%AC%EC%B6%95)
@@ -20,7 +26,7 @@
 
 ## Step 0. Install OS
 * 목적 : `CentOS 7.7 설치`
-* 생성 순서 : 
+* 생성 순서 :     
     * IP 설정 및 hostname 설정
 	    * Network & Host name 클릭
 		    ![ip-config1](/figure/network-host-select.png)

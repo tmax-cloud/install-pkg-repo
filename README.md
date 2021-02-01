@@ -1,18 +1,25 @@
 # OS 및 Package Repo 구축 가이드
 
 ## 구성 요소 및 버전
-* HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/archive_20.08.03)
+* HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat)
 * ISO 파일(CentOS 7.7 :http://vault.centos.org/7.7.1908/isos/x86_64/ 또는 http://192.168.2.136/ISOs/CentOS-7-x86_64-DVD-1908.iso)
 
 ## 폐쇄망 구축 가이드
 1. Install OS
     * CentOS 7.7 설치
-	    * 해당 환경에 맞게 OS를 설치합니다. (IP, hostname, software selection 등)		* 
+	    * 해당 환경에 맞게 OS를 설치합니다. (IP, hostname, software selection 등)		 
 
 2. Repository 구축
     * HyperCloud 용 yum repository 구축
-	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축		*  
-
+	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축 	  
+3. 주의사항
+    * BIOS 세팅
+        * HyperThreading 기능을 켜서 사용하기
+		* ![image (10)](https://user-images.githubusercontent.com/45585638/106423281-79bfec80-64a3-11eb-97da-b4f01aeeba43.png)
+    * ceph 설치에 device를 사용할 경우의 주의 사항입니다.
+        * lvm으로 묶이거나 다른 용도로 사용 중인 device는 지원되지 않으며
+        * ceph osd가 deploy되는 노드에 사용할 device가 반드시 존재 및 umount 상태여야 합니다.
+        * 따라서 클러스터 구성 전 device의 상태를 확인하고, 자세한 내용은 rook-ceph 설치 단계를 참고하시기 바랍니다.
 ## 설치 가이드
 0. [Install OS](#step-0-install-os)
 1. [Create Local Repository](#step-1-local-repository-%EA%B5%AC%EC%B6%95)
@@ -20,7 +27,7 @@
 
 ## Step 0. Install OS
 * 목적 : `CentOS 7.7 설치`
-* 생성 순서 : 
+* 생성 순서 :     
     * IP 설정 및 hostname 설정
 	    * Network & Host name 클릭
 		    ![ip-config1](/figure/network-host-select.png)
@@ -43,8 +50,11 @@
 * 목적 : `폐쇄망일 때 yum repository 구축`
 * 생성 순서 : 
     * 패키지 가져오기
-      * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/archive_20.08.03 .
-      * cp -rT ./archive_20.08.03 /tmp/localrepo
+      * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/common .
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.17/*.rpm . (k8s version 확인 필요, k8s1.15, k8s1.16, k8s1.17, k8s1.18, k8s1.19)     
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/kernel/kernel7.7/*.rpm . (kernel version 확인 필요 kernel7.6, kernel7.7, kernel7.8, kernel7.9)
+      * cp -rT ./common /tmp/localrepo
+      * mv ./*.rpm /tmp/localrepo
     * CentOS Repository 비활성화
       * sudo vi /etc/yum.repos.d/CentOS-Base.repo
       * [base], [updates], [extra] repo config 에 enabled=0 추가
@@ -77,15 +87,15 @@
 
     * 예시 ( kubernetes-v1.16 )    
     	    
-	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.16.15)  		
-	    * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.16.15 . 		
-	    * mv 1.16.15/*.rpm /tmp/localrepo
+	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.16)  		
+	    * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.16/*.rpm . 		
+	    * mv ./*.rpm /tmp/localrepo
     
     * 예시 ( kubernetes-v1.17 )    
     	    
-	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.17.6)   		
-	    * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_pl/install/offline/k8s-upgrade/1.17.6 . 		
-	    * mv 1.17.6/*.rpm /tmp/localrepo 
+	    * kubernetes-v1.16 다운로드 (ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.17)   		
+	    * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.16/*.rpm . 		
+	    * mv ./*.rpm /tmp/localrepo 
 	    
 2. local Repository 구축
     * yum repository 구축

@@ -15,7 +15,7 @@
 3. 주의사항
     * BIOS 세팅
         * HyperThreading 기능을 켜서 사용하기
-	    * ![image (8)](https://user-images.githubusercontent.com/45585638/106423010-f0a8b580-64a2-11eb-9c76-2a1f9bbd02a9.png) *
+		* ![image (10)](https://user-images.githubusercontent.com/45585638/106423281-79bfec80-64a3-11eb-97da-b4f01aeeba43.png)
     * ceph 설치에 device를 사용할 경우의 주의 사항입니다.
         * lvm으로 묶이거나 다른 용도로 사용 중인 device는 지원되지 않으며
         * ceph osd가 deploy되는 노드에 사용할 device가 반드시 존재 및 umount 상태여야 합니다.

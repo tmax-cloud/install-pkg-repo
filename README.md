@@ -47,7 +47,7 @@
     * CentOS 설치 자체보다 hypercloud 설치할 때 필요한 부분만 언급하였습니다.    
 
 ## Step 1. Local Repository 구축
-* 목적 : `폐쇄망일 때 yum repository 구축`
+* 목적 : `폐쇄망일 때 dnf repository 구축`
 * 생성 순서 : 
     * 패키지 가져오기
       * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/common .
@@ -60,7 +60,7 @@
       * [BaseOS] repo config 에 enabled=0 추가
       * sudo vi /etc/yum.repos.d/CentOS-AppStream.repo
       * [AppStream] repo config 에 enabled=0 추가
-    * Yum Repository 구축
+    * DNF Repository 구축
       * sudo dnf install -y /tmp/localrepo/createrepo/*.rpm
       * sudo createrepo_c /tmp/localrepo
       * sudo cat << "EOF" | sudo tee -a /etc/yum.repos.d/localrepo.repo

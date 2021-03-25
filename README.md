@@ -52,7 +52,7 @@
     * 패키지 가져오기
       * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/common .
       * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/k8s/k8s1.19/*.rpm . (k8s version 확인 필요, k8s1.15, k8s1.16, k8s1.17, k8s1.18, k8s1.19)     
-      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/kernel/kernel8.2/*.rpm . (kernel version 확인 필요 kernel7.6, kernel7.7, kernel7.8, kernel7.9)
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/kernel/kernel8.2/*.rpm . (kernel version 확인 필요 kernel8.2)
       * cp -rT ./common /tmp/localrepo
       * mv ./*.rpm /tmp/localrepo
     * CentOS Repository 비활성화

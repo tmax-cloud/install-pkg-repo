@@ -1,17 +1,17 @@
 # OS 및 Package Repo 구축 가이드
 
 ## 구성 요소 및 버전
-* HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat)
-* ISO 파일(CentOS 7.7 :http://vault.centos.org/7.7.1908/isos/x86_64/ 또는 http://192.168.2.136/ISOs/CentOS-7-x86_64-DVD-1908.iso)
+* HyperCloud 패키지(ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat)
+* ISO 파일(CentOS 8.2 :https://vault.centos.org/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-dvd1.iso 또는 http://192.168.2.136/centos/8.2.2004/isos/CentOS-8.2.2004-x86_64-dvd1.iso)
 
 ## 폐쇄망 구축 가이드
 1. Install OS
-    * CentOS 7.7 설치
+    * CentOS 8.2 설치
 	    * 해당 환경에 맞게 OS를 설치합니다. (IP, hostname, software selection 등)		 
 
 2. Repository 구축
-    * HyperCloud 용 yum repository 구축
-	    * HyperCloud 설치 시 필요한 패키지들로 yum Reposiroty 구축 	  
+    * HyperCloud 용 dnf repository 구축
+	    * HyperCloud 설치 시 필요한 패키지들로 dnf Reposiroty 구축 	  
 3. 주의사항
     * BIOS 세팅
         * HyperThreading 기능을 켜서 사용하기
@@ -26,7 +26,7 @@
 2. [Add Additional Package](#step-2-local-repository%EC%97%90-packages-%EC%B6%94%EA%B0%80-%EA%B0%80%EC%9D%B4%EB%93%9C-optional)
 
 ## Step 0. Install OS
-* 목적 : `CentOS 7.7 설치`
+* 목적 : `CentOS 8.2 설치`
 * 생성 순서 :     
     * IP 설정 및 hostname 설정
 	    * Network & Host name 클릭
@@ -50,18 +50,19 @@
 * 목적 : `폐쇄망일 때 yum repository 구축`
 * 생성 순서 : 
     * 패키지 가져오기
-      * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/common .
-      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/k8s/k8s1.17/*.rpm . (k8s version 확인 필요, k8s1.15, k8s1.16, k8s1.17, k8s1.18, k8s1.19)     
-      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/redhat/kernel/kernel7.7/*.rpm . (kernel version 확인 필요 kernel7.6, kernel7.7, kernel7.8, kernel7.9)
+      * scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/common .
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/k8s/k8s1.19/*.rpm . (k8s version 확인 필요, k8s1.15, k8s1.16, k8s1.17, k8s1.18, k8s1.19)     
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/kernel/kernel8.2/*.rpm . (kernel version 확인 필요 kernel7.6, kernel7.7, kernel7.8, kernel7.9)
       * cp -rT ./common /tmp/localrepo
       * mv ./*.rpm /tmp/localrepo
     * CentOS Repository 비활성화
-      * sudo vi /etc/yum.repos.d/CentOS-Base.repo
-      * [base], [updates], [extra] repo config 에 enabled=0 추가
-      * ![repo-config1](/figure/centos-config.png)
+      * sudo vi /etc/yum.repos.d/CentOS-BaseOS.repo
+      * [BaseOS] repo config 에 enabled=0 추가
+      * sudo vi /etc/yum.repos.d/CentOS-AppStream.repo
+      * [AppStream] repo config 에 enabled=0 추가
     * Yum Repository 구축
-      * sudo yum install -y /tmp/localrepo/createrepo/*.rpm
-      * sudo createrepo /tmp/localrepo
+      * sudo dnf install -y /tmp/localrepo/createrepo/*.rpm
+      * sudo createrepo_c /tmp/localrepo
       * sudo cat << "EOF" | sudo tee -a /etc/yum.repos.d/localrepo.repo
       * [localrepo]
       * name=localrepo
@@ -69,10 +70,12 @@
       * enabled=1
       * gpgcheck=0
       * EOF
+    * Modularity 적용  
+      * scp ck-ftp@192.168.1.150/home/ck-ftp/k8s_package/el8/redhat/modules.yaml .
+      * mv modules.yaml /tmp/localrepo/repodata
+      * modifyrepo_c --mdtype=modules /tmp/localrepo/repodata/modules.yaml
     * 확인
-      * sudo yum clean all && yum repolist
-      * 다음과 같이 나오면 완료.
-      * ![repo-config3](/figure/fin.png)
+      * sudo dnf clean all && dnf repolist      
 
 ## Step 2. local repository에 packages 추가 가이드 (Optional)
 
@@ -93,11 +96,12 @@
 	    * mv ./*.rpm /tmp/localrepo 
 	    
 2. local Repository 구축
-    * yum repository 구축
-	    * sudo createrepo {repository 경로}	    
+    * dnf repository 구축
+	    * sudo createrepo_c {repository 경로}	    
     * 예시
-	    * sudo createrepo /tmp/localrepo
-	    * yum clean all && yum repolist
+	    * sudo createrepo_c /tmp/localrepo
+	    * sudo modifyrepo_c --mdtype=modules /tmp/localrepo/repodata/modules.yaml
+	    * dnf clean all && dnf repolist
 
 
 

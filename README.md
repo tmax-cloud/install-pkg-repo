@@ -56,10 +56,12 @@
       * cp -rT ./common /tmp/localrepo
       * mv ./*.rpm /tmp/localrepo
     * CentOS Repository 비활성화
-      * sudo vi /etc/yum.repos.d/CentOS-BaseOS.repo
+      * sudo vi /etc/yum.repos.d/CentOS-Base.repo
       * [BaseOS] repo config 에 enabled=0 추가
       * sudo vi /etc/yum.repos.d/CentOS-AppStream.repo
       * [AppStream] repo config 에 enabled=0 추가
+      * sudo vi /etc/yum.repos.d/CentOS-Extras.repo
+      * [extras] repo config 에 enabled=0 추가
     * DNF Repository 구축
       * sudo dnf install -y /tmp/localrepo/createrepo/*.rpm
       * sudo createrepo_c /tmp/localrepo

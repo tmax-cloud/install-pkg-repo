@@ -73,9 +73,10 @@
       * gpgcheck=0
       * EOF
     * Modularity 적용  
-      * scp ck-ftp@192.168.1.150/home/ck-ftp/k8s_package/el8/redhat/modules.yaml .
-      * mv modules.yaml /tmp/localrepo/repodata
-      * modifyrepo_c --mdtype=modules /tmp/localrepo/repodata/modules.yaml
+      * scp ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat/modules.yaml .
+      * mv modules.yaml /tmp/localrepo/
+      * modifyrepo_c --mdtype=modules /tmp/localrepo/modules.yaml /tmp/localrepo/repodata/
+      * ls /tmp/localrepo/repodata/ 한 경우 {...}-modules.yaml.gz 생성 확인
     * 확인
       * sudo dnf clean all && dnf repolist      
 

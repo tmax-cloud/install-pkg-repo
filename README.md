@@ -66,6 +66,12 @@
 	`<repo-id>`는 disable할 repo의 id (repolist 기준)
 
 ## 설치 가이드
+아래 명령어를 사용하면 패키지의 정보를 확인할 수 있습니다.
+```bash
+$ sudo dnf info <pkg_name>
+```
+`<pkg_name>`은 패키지의 이름
+
 아래 명령어를 통해서 패키지를 설치할 수 있습니다.
 ```bash
 $ sudo dnf install <pkg_name>
@@ -77,6 +83,12 @@ ex.
 ```bash
 $ sudo dnf install kublet-1.19.4-0
 ```
+
+아래 명령어를 통해서 모듈을 enable 할 수 있습니다.
+```bash
+$ sudo dnf module enable <module_name>
+```
+`<module_name>`은 enable 할 모듈의 이름
 
 ## 삭제 가이드
 아래 명령어를 통해서 패키지를 삭제할 수 있습니다.

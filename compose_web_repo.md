@@ -57,3 +57,11 @@ $ dnf config-manager --set-disabled <repo-id>
 $ dnf config-manager --set-enabled BaseOS
 $ dnf config-manager --set-enabled AppStream
 ```
+
+
+### Troubleshooting
+웹 레포 구성 후 접근하려고 했을 때, 403 forbidden 발생시
+`restorecon` 명령어 사용하여 
+```bash
+restorecon -R /var/www/html/
+```

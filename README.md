@@ -44,15 +44,6 @@ ProLinux의 iso를 이용하여 기본 로컬 레포를 설정하기 위해서�
 
 4. 노드에 local repo를 추가
 	```bash
-	$ sudo cat << "EOF" | sudo tee -a /etc/yum.repos.d/localrepo.repo
-	 [localrepo]
-	 name=localrepo
-	 baseurl=file://${LOCAL_REPO_PATH}
-	 gpgcheck=0
-	 EOF
-	```
-	또는 아래 명령어
-	```bash
 	$ dnf config-manager --add-repo file://${LOCAL_REPO_PATH}
 	```
 

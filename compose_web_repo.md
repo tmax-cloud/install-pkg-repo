@@ -31,9 +31,9 @@ $ sudo systemctl start httpd
 ### 4. 로컬 레포 복사 및 레포 정보 수정
 로컬 레포 디렉토리를 apache 기본 디렉토리로 이동합니다.
 ```bash
-$ mkdir -p /var/www/html/prolinux/8/os/x86_64/
-$ cp -rT BaseOS /var/www/html/prolinux/8/os/x86_64/
-$ cp -rT AppStream /var/www/html/prolinux/8/os/x86_64/
+$ mkdir -p /var/www/html/prolinux/8/os/x86_64/{BaseOS,AppStream}
+$ cp -rT BaseOS /var/www/html/prolinux/8/os/x86_64/BaseOS
+$ cp -rT AppStream /var/www/html/prolinux/8/os/x86_64/AppStream
 ```
 
 

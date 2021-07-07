@@ -4,70 +4,64 @@
 ProLinux의 iso를 이용하여 기본 로컬 레포를 설정하기 위해서는 아래 가이드를 참조해주시기 바랍니다.
 
 [iso를 이용한 기본 로컬 레포 구축하기](compose_local_iso.md)
+[httpd를 이용한 레포 구축](compose_web_repo.md)
 
 ## 구성 요소 및 버전
 
 ## 폐쇄망 구축 가이드
-1. 필요한 패키지를 ck-ftp에서 복사
-	```bash
-	$ scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat ./local_repo
-	```
-	추가적으로 필요한 패키지가 있으면 해당 디렉토리로 다운받거나 복사합니다.
-
-2. local\_repo 디렉토리를 로컬 레포를 구축할 노드로 이동
-
-	tar 압축
-	```bash
-	$ tar cvzf local_repo.tar.gz local_repo
-	```
-
-	tar 압축해제
-	```bash
-	$ tar xvzf local_repo.tar.gz
-	```
-
-3. 패키지들이 있는 디렉토리에 repo를 생성
-
-	압축 해제한 디렉토리 기준
-	```bash
-	$ pushd ./local_repo
-	$ createrepo_c ./
-	$ modifyrepo_c modules.yaml ./repodata
-	$ export LOCAL_REPO_PATH=$PWD
-	$ popd
-	```
-
-	만약 해당 노드에 createrepo_c가 없다면 아래 명령어를 이용하여 createrepo_c 패키지를 설치합니다.
-	```bash
-	$ dnf localinstall ./common/createrepo/*.rpm
-	```
-
-4. 노드에 local repo를 추가
-	```bash
-	$ sudo cat << "EOF" | sudo tee -a /etc/yum.repos.d/localrepo.repo
-	 [localrepo]
-	 name=localrepo
-	 baseurl=file://${LOCAL_REPO_PATH}
-	 gpgcheck=0
-	 EOF
-	```
-	또는 아래 명령어
-	```bash
-	$ dnf config-manager --add-repo file://${LOCAL_REPO_PATH}
-	```
+### 1. 필요한 패키지를 ck-ftp에서 복사
+```bash
+$ scp -r ck-ftp@192.168.1.150:/home/ck-ftp/k8s_package/el8/redhat ./local_repo
+```
+추가적으로 필요한 패키지가 있으면 해당 디렉토리로 다운받거나 복사합니다.
 
 
-	추가된 repo 확인
-	```bash
-	$ sudo dnf repolist
-	```
+### 2. local\_repo 디렉토리를 로컬 레포를 구축할 노드로 이동
+tar 압축
+```bash
+$ tar cvzf local_repo.tar.gz local_repo
+```
+tar 압축해제
+```bash
+$ tar xvzf local_repo.tar.gz
+```
 
 
-	필요하다면 기존 repo를 disable
-	```bash
-	$ dnf config-manager --set-disabled <repo-id>
-	```
-	`<repo-id>`는 disable할 repo의 id (repolist 기준)
+### 3. 패키지들이 있는 디렉토리에 repo를 생성
+압축 해제한 디렉토리 기준
+```bash
+$ pushd ./local_repo
+$ createrepo_c ./
+$ modifyrepo_c modules.yaml ./repodata
+$ export LOCAL_REPO_PATH=$PWD
+$ popd
+```
+
+
+만약 해당 노드에 createrepo\_c가 없다면 아래 명령어를 이용하여 createrepo\_c 패키지를 설치합니다.
+```bash
+$ dnf localinstall ./common/createrepo/*.rpm
+```
+
+
+### 4. 노드에 local repo를 추가
+```bash
+$ dnf config-manager --add-repo file://${LOCAL_REPO_PATH}
+```
+
+
+추가된 repo 확인
+```bash
+$ sudo dnf repolist
+```
+
+
+필요하다면 기존 repo를 disable
+```bash
+$ dnf config-manager --set-disabled <repo-id>
+```
+`<repo-id>`는 disable할 repo의 id (repolist 기준)
+
 
 ## 설치 가이드
 아래 명령어를 사용하면 패키지의 정보를 확인할 수 있습니다.
